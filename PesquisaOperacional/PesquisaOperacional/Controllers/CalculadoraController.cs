@@ -21,52 +21,24 @@ namespace PesquisaOperacional.Controllers
             List<float> resultados = new List<float>();
             float resultadoFinal = new float();
             Tuple<float, float> pontoOtimo = new Tuple<float, float>(0, 0);
-            /*foreach(Restricao item in problema.Restricoes)
-            {*/
-                if (problema.restricao1.VariavelDeDecisao1 == 0)
+
+            foreach (Restricao item in problema.Restricoes)
+            { 
+                if (item.VariavelDeDecisao1 == 0)
                 {
-                    pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.ValorRestricao));
+                    pontos.Add(new Tuple<float, float>(item.VariavelDeDecisao1, item.ValorRestricao));
                 }
-                else if (problema.restricao1.VariavelDeDecisao2 == 0)
+                else if (item.VariavelDeDecisao2 == 0)
                 {
-                    pontos.Add(new Tuple<float, float>(problema.restricao1.ValorRestricao, problema.restricao1.VariavelDeDecisao2));
+                    pontos.Add(new Tuple<float, float>(item.ValorRestricao, item.VariavelDeDecisao2));
                 }
                 else
                 {
-                    pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.VariavelDeDecisao2));
-                    pontos.Add(new Tuple<float, float>(problema.restricao1.ValorRestricao, 0));
-                    pontos.Add(new Tuple<float, float>(0, problema.restricao1.ValorRestricao));
+                    pontos.Add(new Tuple<float, float>(item.ValorRestricao, 0));
+                    pontos.Add(new Tuple<float, float>(0, item.ValorRestricao));
                 }
 
-            if (problema.restricao2.VariavelDeDecisao1 == 0)
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao2.VariavelDeDecisao1, problema.restricao2.ValorRestricao));
             }
-            else if (problema.restricao2.VariavelDeDecisao2 == 0)
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao2.ValorRestricao, problema.restricao2.VariavelDeDecisao2));
-            }
-            else
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.VariavelDeDecisao2));
-                pontos.Add(new Tuple<float, float>(problema.restricao2.ValorRestricao, 0));
-                pontos.Add(new Tuple<float, float>(0, problema.restricao2.ValorRestricao));
-            }
-
-            if (problema.restricao3.VariavelDeDecisao1 == 0)
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao3.VariavelDeDecisao1, problema.restricao3.ValorRestricao));
-            }
-            else if (problema.restricao3.VariavelDeDecisao2 == 0)
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao3.ValorRestricao, problema.restricao3.VariavelDeDecisao2));
-            }
-            else
-            {
-                pontos.Add(new Tuple<float, float>(problema.restricao3.ValorRestricao, 0));
-                pontos.Add(new Tuple<float, float>(0, problema.restricao3.ValorRestricao));
-            }
-
             pontos.Add(
                 new Tuple<float, float>(
                     pontos.Where(a => a.Item1 == pontos.Max(abc => abc.Item1)).First().Item1,
@@ -90,6 +62,12 @@ namespace PesquisaOperacional.Controllers
             }
             return View("ResultadoView", new Resultado(pontos, pontoOtimo, resultadoFinal, problema.Funcao.Tipo) );
 
+        }
+
+        public void AddRestricao(Problema problema)
+        {
+            Restricao itemNovo = new Restricao();
+            problema.Restricoes.Add(itemNovo);
         }
     }
 }

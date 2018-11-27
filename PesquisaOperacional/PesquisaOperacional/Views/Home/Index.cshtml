@@ -15,25 +15,18 @@
 
 @using (Html.BeginForm("ProgLinear", "Calculadora", FormMethod.Post))
 {
-    <h3>restrição 1</h3>
-    @Html.TextBoxFor(model => model.restricao1.VariavelDeDecisao1);
-    @Html.TextBoxFor(model => model.restricao1.VariavelDeDecisao2);
-    @Html.TextBoxFor(model => model.restricao1.Sinal);
-    @Html.TextBoxFor(model => model.restricao1.ValorRestricao);
 
+    for (int i = 0; i < Model.Restricoes.Count; i++)
+    {
+        <h3>restrição 1</h3>
 
-    <h3>restrição 2</h3>
-    @Html.TextBoxFor(model => model.restricao2.VariavelDeDecisao1);
-    @Html.TextBoxFor(model => model.restricao2.VariavelDeDecisao2);
-    @Html.TextBoxFor(model => model.restricao2.Sinal);
-    @Html.TextBoxFor(model => model.restricao2.ValorRestricao);
+        @Html.TextBoxFor(model => model.Restricoes[i].VariavelDeDecisao1);
+        @Html.TextBoxFor(model => model.Restricoes[i].VariavelDeDecisao2);
+        @Html.TextBoxFor(model => model.Restricoes[i].Sinal);
+        @Html.TextBoxFor(model => model.Restricoes[i].ValorRestricao);
+    }
 
-
-    <h3>restrição 3</h3>
-    @Html.TextBoxFor(model => model.restricao3.VariavelDeDecisao1);
-    @Html.TextBoxFor(model => model.restricao3.VariavelDeDecisao2);
-    @Html.TextBoxFor(model => model.restricao3.Sinal);
-    @Html.TextBoxFor(model => model.restricao3.ValorRestricao);
+    <button onclick="adicionarRestricao">Adicionar restrição</button>
 
     <h3>função objetivo</h3>
     @Html.TextBoxFor(model => model.Funcao.Coeficiente1);
@@ -47,3 +40,19 @@
 
 <div class="row">
 </div>
+
+
+
+@section Scripts{
+    <script>
+        function adicionarRestricao() {
+
+        }
+
+
+
+
+    </script>
+
+
+}

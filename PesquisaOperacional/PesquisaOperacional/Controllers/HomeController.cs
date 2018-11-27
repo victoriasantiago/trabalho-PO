@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PesquisaOperacional.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,10 @@ namespace PesquisaOperacional.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            Restricao item1 = new Restricao();
+            Restricao item2 = new Restricao();
+            Restricao item3 = new Restricao();
+            return View(new Problema(item1, item2, item3));
         }
 
         public ActionResult About()

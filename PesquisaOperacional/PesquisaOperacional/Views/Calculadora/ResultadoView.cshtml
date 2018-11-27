@@ -7,17 +7,24 @@
 
 <head>
     <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+    @*<script src="https://cdnjs.com/libraries/Chart.js"></script>*@
 </head>
 <h2>Resultado</h2>
-<div id="divGrafico" style="width:600px;height:250px;">
+<div id="divGrafico" style="width:1000px;height:1000px;">
 
 
 </div>
 
+@section Scripts {
+    <script>
+            divGrafico = document.getElementById('divGrafico');
+            data = {
+                x: [@Model.EixoX[0], @Model.EixoX[1], @Model.EixoX[2], @Model.EixoX[3], @Model.EixoX[4]],
+                y: [@Model.EixoY[0], @Model.EixoY[1], @Model.EixoY[2], @Model.EixoY[3], @Model.EixoY[4]]
+            };
+            trace = [data, type = 'scatter'];
+            Plotly.newPlot('divGrafico', [trace]);
+            //var ctx = document.getElementById("myChart");
 
-<script>
-    divGrafico = document.getElementById('divGrafico');
-    data = { x: @Model.EixoX, y: @Model.EixoY};
-    trace = [data, type = 'scatter'];
-    Plotly.plot('divGrafico', [trace]);
-</script>
+    </script>
+}
