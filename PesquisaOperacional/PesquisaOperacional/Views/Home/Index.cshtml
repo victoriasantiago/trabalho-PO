@@ -1,5 +1,10 @@
-﻿@{
+﻿@model PesquisaOperacional.Models.Problema
+
+@{
+    /**/
+
     ViewBag.Title = "Home Page";
+
 }
 
 <div class="jumbotron">
@@ -7,6 +12,38 @@
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
+
+@using (Html.BeginForm("ProgLinear", "Calculadora", FormMethod.Post))
+{
+    <h3>restrição 1</h3>
+    @Html.TextBoxFor(model => model.restricao1.VariavelDeDecisao1);
+    @Html.TextBoxFor(model => model.restricao1.VariavelDeDecisao2);
+    @Html.TextBoxFor(model => model.restricao1.Sinal);
+    @Html.TextBoxFor(model => model.restricao1.ValorRestricao);
+
+
+    <h3>restrição 2</h3>
+    @Html.TextBoxFor(model => model.restricao2.VariavelDeDecisao1);
+    @Html.TextBoxFor(model => model.restricao2.VariavelDeDecisao2);
+    @Html.TextBoxFor(model => model.restricao2.Sinal);
+    @Html.TextBoxFor(model => model.restricao2.ValorRestricao);
+
+
+    <h3>restrição 3</h3>
+    @Html.TextBoxFor(model => model.restricao3.VariavelDeDecisao1);
+    @Html.TextBoxFor(model => model.restricao3.VariavelDeDecisao2);
+    @Html.TextBoxFor(model => model.restricao3.Sinal);
+    @Html.TextBoxFor(model => model.restricao3.ValorRestricao);
+
+    <h3>função objetivo</h3>
+    @Html.TextBoxFor(model => model.Funcao.Coeficiente1);
+    @Html.TextBoxFor(model => model.Funcao.Coeficiente2);
+    @Html.TextBoxFor(model => model.Funcao.Tipo);
+
+
+    <button type="submit">CALCULA</button>
+}
+
 
 <div class="row">
 </div>

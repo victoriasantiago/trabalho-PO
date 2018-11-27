@@ -15,44 +15,80 @@ namespace PesquisaOperacional.Controllers
 
         }
 
-        public ActionResult ProgLinear(FuncaoObjetivo funcao, List<Restricao> restricoes)
+        public ActionResult ProgLinear(Problema problema)
         {
             List<Tuple<float, float>> pontos = new List<Tuple<float, float>>();
             List<float> resultados = new List<float>();
-
-            foreach(Restricao item in restricoes)
-            {
-                if (item.VariavelDeDecisao1 == 0)
+            float resultadoFinal = new float();
+            Tuple<float, float> pontoOtimo = new Tuple<float, float>(0, 0);
+            /*foreach(Restricao item in problema.Restricoes)
+            {*/
+                if (problema.restricao1.VariavelDeDecisao1 == 0)
                 {
-                    pontos.Add(new Tuple<float, float>(item.VariavelDeDecisao1, item.ValorRestricao));
+                    pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.ValorRestricao));
                 }
-                else if (item.VariavelDeDecisao2 == 0)
+                else if (problema.restricao1.VariavelDeDecisao2 == 0)
                 {
-                    pontos.Add(new Tuple<float, float>(item.ValorRestricao, item.VariavelDeDecisao2));
+                    pontos.Add(new Tuple<float, float>(problema.restricao1.ValorRestricao, problema.restricao1.VariavelDeDecisao2));
                 }
                 else
                 {
-                    pontos.Add(new Tuple<float, float>(item.ValorRestricao, 0));
-                    pontos.Add(new Tuple<float, float>(0, item.ValorRestricao));
+                    pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.VariavelDeDecisao2));
+                    pontos.Add(new Tuple<float, float>(problema.restricao1.ValorRestricao, 0));
+                    pontos.Add(new Tuple<float, float>(0, problema.restricao1.ValorRestricao));
                 }
 
-            }
-
-            foreach(var ponto in pontos)
+            if (problema.restricao2.VariavelDeDecisao1 == 0)
             {
-                resultados.Add(funcao.Coeficiente1 * ponto.Item1 + funcao.Coeficiente2 * ponto.Item2);
+                pontos.Add(new Tuple<float, float>(problema.restricao2.VariavelDeDecisao1, problema.restricao2.ValorRestricao));
             }
-            if (funcao.Tipo.Equals("MAX"))
+            else if (problema.restricao2.VariavelDeDecisao2 == 0)
             {
-                float resultadoFinal = resultados.Max();
-                Tuple<float, float> pontoOtimo = pontos[resultados.IndexOf(resultados.Max())];
+                pontos.Add(new Tuple<float, float>(problema.restricao2.ValorRestricao, problema.restricao2.VariavelDeDecisao2));
             }
             else
             {
-                float resultadoFinal = resultados.Min();
-                Tuple<float, float> pontoOtimo = pontos[resultados.IndexOf(resultados.Min())];
+                pontos.Add(new Tuple<float, float>(problema.restricao1.VariavelDeDecisao1, problema.restricao1.VariavelDeDecisao2));
+                pontos.Add(new Tuple<float, float>(problema.restricao2.ValorRestricao, 0));
+                pontos.Add(new Tuple<float, float>(0, problema.restricao2.ValorRestricao));
             }
-            return View();
+
+            if (problema.restricao3.VariavelDeDecisao1 == 0)
+            {
+                pontos.Add(new Tuple<float, float>(problema.restricao3.VariavelDeDecisao1, problema.restricao3.ValorRestricao));
+            }
+            else if (problema.restricao3.VariavelDeDecisao2 == 0)
+            {
+                pontos.Add(new Tuple<float, float>(problema.restricao3.ValorRestricao, problema.restricao3.VariavelDeDecisao2));
+            }
+            else
+            {
+                pontos.Add(new Tuple<float, float>(problema.restricao3.ValorRestricao, 0));
+                pontos.Add(new Tuple<float, float>(0, problema.restricao3.ValorRestricao));
+            }
+
+            pontos.Add(
+                new Tuple<float, float>(
+                    pontos.Where(a => a.Item1 == pontos.Max(abc => abc.Item1)).First().Item1,
+                    pontos.Where(a => a.Item2 == pontos.Max(cba => cba.Item2)).First().Item2));
+
+            //}
+
+            foreach (var ponto in pontos)
+            {
+                resultados.Add(problema.Funcao.Coeficiente1 * ponto.Item1 + problema.Funcao.Coeficiente2 * ponto.Item2);
+            }
+            if (problema.Funcao.Tipo.Equals("MAX"))
+            {
+                resultadoFinal = resultados.Max();
+                pontoOtimo = pontos[resultados.IndexOf(resultados.Max())];
+            }
+            else
+            {
+                resultadoFinal = resultados.Min();
+                pontoOtimo = pontos[resultados.IndexOf(resultados.Min())];
+            }
+            return View("ResultadoView", new Resultado(pontos, pontoOtimo, resultadoFinal, problema.Funcao.Tipo) );
 
         }
     }

@@ -1,0 +1,23 @@
+﻿@model PesquisaOperacional.Models.Resultado
+@{
+    ViewBag.Title = "Resultado";
+
+}
+
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+</head>
+<h2>Resultado</h2>
+<div id="divGrafico" style="width:600px;height:250px;">
+
+
+</div>
+
+
+<script>
+    divGrafico = document.getElementById('divGrafico');
+    data = { x: @Model.EixoX, y: @Model.EixoY};
+    trace = [data, type = 'scatter'];
+    Plotly.plot('divGrafico', [trace]);
+</script>
